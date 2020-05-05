@@ -1,0 +1,121 @@
+﻿@using stajpaylasim.Models
+@model StudentDoc
+
+@{
+  
+    if (Session["SId"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Öğrenci Sayfası</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+
+    <!--begin::Web font -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+    <!--end::Web font -->
+    <link href="~/Content/vendors.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    <link rel="shortcut icon" href="~/Content/logo.bmp" />
+</head>
+<body>
+
+    <div>
+
+        <div class="text-info" style="font-size:25px">
+            @Session["Sad"]
+        </div>
+    </div>
+
+    <div style="text-align:right">
+        <a class="btn btn-outline-info" href="@Url.Action("LogOut","Home")">Çıkış Yap</a>
+    </div>
+    <div>
+        <div class="m-grid__item m-grid__item--fluid  m-grid m-grid--ver-desktop m-grid--desktop 	m-container m-container--responsive m-container--xxl m-page__container m-body">
+            <div class="m-grid__item m-grid__item--fluid m-wrapper">
+                <div class="m-content">
+                    @using (Html.BeginForm("Student", "Home", FormMethod.Post, new { @class = "m-login__form m-form container col-lg-6 col-md-9 col-xs-12", enctype = "multipart/form-data" }))
+                    {
+                        if (ViewData.ModelState.Any(c => c.Value.Errors.Any()))
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                </button>
+                                <strong><span class="align-text-bottom text-center text-uppercase">@Html.ValidationSummary(false, "", new { @class = "menu" })</span></strong>
+                            </div>
+                        }
+
+                        
+                        <div class="form-group m-form__group">
+                            <label>Dokuman Baslik</label>
+                            @Html.DropDownList("DTId", (SelectList)ViewBag.Title, "Lütfen Seçiniz", htmlAttributes: new { @class = "form-control m-input m-input--solid" })
+                        </div>
+
+                        <div style="margin-top:15px;margin-bottom:15px;">
+                            <label>Staj Aciklamasi</label>
+                            <div class="input-group m-input-group">
+                                @Html.TextBoxFor(d => d.DocDesc, new { @class = "form-control m-input m-input--solid", type = "text" })
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group">
+                            <label>Staj Amiri</label>
+                            @Html.DropDownList("TId", (SelectList)ViewBag.Teacher, "Lütfen Seçiniz", htmlAttributes: new { @class = "form-control m-input m-input--solid" })
+                        </div>
+
+                        <div class="form-group m-form__group">
+                            <label>Staj Belgesi</label>
+                            <div class="custom-file">
+                                @*burası düzenlenecek*@
+                                @Html.TextBoxFor(d => d.SDoc, new { @class = "custom-file-input m-input--solid", type = "file", accept = "*" })
+                                <label class="custom-file-label" for="customFile">Yüklenecek staj belgesini seçiniz</label>
+                            </div>
+                        </div>
+
+                        <div class="pull-right mb-5">
+                            <button class="btn btn-accent">Kaydet</button>
+                        </div>
+                        if (!(string.IsNullOrEmpty(ViewBag.Success)))
+                        {
+                            <div class="alert alert-success" role="alert">
+                                
+                                <strong><label class="success">@ViewBag.Success</label></strong>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- begin::Quick Nav -->
+    <script src="~/Scripts/vendors.bundle.js" type="text/javascript"></script>
+    <script src="~/Scripts/scripts.bundle.js" type="text/javascript"></script>
+    <!--begin::Page Scripts -->
+    <script src="~/Scripts/hmpg/dashboard.js" type="text/javascript"></script>
+    <!--end::Page Scripts -->
+    <script src="~/Scripts/javascript.js"></script>
+
+</body>
+</html>

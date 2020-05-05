@@ -1,0 +1,154 @@
+﻿@model IEnumerable<stajpaylasim.Models.DocTeacher>
+
+@{
+    if (Session["TId"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+                
+    <title>Öğrenci Sayfası</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+
+    <!--begin::Web font -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+    <!--end::Web font -->
+    <link href="~/Content/vendors.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    <link rel="shortcut icon" href="~/Content/logo.bmp" />
+</head>
+<body>
+    <div>
+
+        <div class="text-info" style="font-size:25px">
+            @Session["Tad"]
+        </div>
+    </div>
+    <div>
+        <div style="text-align:right">
+            <a class="btn btn-info" href="@Url.Action("LogOut","Home")">Çıkış Yap</a>
+        </div>
+        <div class="m-portlet">
+            <div class="m-portlet__head" style="margin-bottom: -21px;">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            Öğrenciler
+                        </h3>
+
+
+                    </div>
+                    <br />
+
+                </div>
+                @Html.Raw(TempData["msg"])
+            </div>
+
+            <div>
+                @if (!(string.IsNullOrEmpty(ViewBag.Success)))
+                {
+                    <div class="alert alert-success" role="alert">
+
+                        <strong><label class="success">@ViewBag.Success</label></strong>
+                    </div>
+
+                }
+            </div>
+
+            <div class="m-portlet__body">
+
+                <!--begin::Section-->
+                <div class="m-section">
+
+                    <div class="m-section__content">
+                        <div class="table-responsive">
+                            <table id="EmployeeList" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ogrenci Adı</th>
+                                        <th>Staj Basligi</th>
+                                        <th>Staj Aciklmasi</th>
+                                        <th>Staj Belgesi</th>
+                                        <th>Staj Durum</th>
+                                        <th>Islemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SNameSurname)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Doctitle)
+                                            </td>
+                                            <td style="width:500px">
+                                                @Html.DisplayFor(modelItem => item.DocDesc)
+                                            </td>
+                                            <td>
+                                                <a href="~/Content/Documents/@item.DocName" )" style="margin-bottom: 13px; margin-right: 7px; margin-top: 11px;" class="btn btn-outline-warning m-btn m-btn--icon m-btn--glyphicon glyphicon-file m-btn--outline-2x m-btn--pill">
+                                                    <i class="la label-warning"></i>
+                                                </a>
+                                            </td>
+
+                                            @using (Html.BeginForm("Teacher", "Home", FormMethod.Post, new { @class = "m-login__form m-form container col-lg-6 col-md-9 col-xs-12" }))
+                                            {
+                                                <td>
+                                                    @Html.DropDownList("DsId", (SelectList)ViewBag.DocState, htmlAttributes: new { @class = "form-control m-input m-input--solid" })
+                                                </td>
+
+                                                <td style="width:50px">
+                                                    <div>
+                                                        <button class="btn btn-outline-info" id="DocId" name="DocId" value="@item.DocId">Kaydet</button>
+                                                    </div>
+                                                    @*<a href="@Url.Action("Teacher", "Home", new { id = item.DocId })" style="margin-bottom: 13px; margin-right: 7px; margin-top: 11px;" class="btn btn-outline-warning m-btn m-btn--icon m-btn--icon-only m-btn--outline-2x m-btn--pill">
+                                                    <i class="la la-edit"></i>
+                                                </a>*@
+
+
+                                                    @*@Html.ActionLink("Guncelle","Teacher","Home",new { @item.DocId},new { @class = "btn btn-info" })*@
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!--end::Section-->
+            </div>
+
+            <!--end::Form-->
+        </div>
+    </div>
+
+    <!-- begin::Quick Nav -->
+    <script src="~/Scripts/vendors.bundle.js" type="text/javascript"></script>
+    <script src="~/Scripts/scripts.bundle.js" type="text/javascript"></script>
+    <!--begin::Page Scripts -->
+    <script src="~/Scripts/hmpg/dashboard.js" type="text/javascript"></script>
+    <!--end::Page Scripts -->
+    <script src="~/Scripts/javascript.js"></script>
+
+</body>
+</html>

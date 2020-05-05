@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StudentInternModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DocStates">
+          <Key>
+            <PropertyRef Name="DSId" />
+          </Key>
+          <Property Name="DSId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DSAck" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DocTitle">
+          <Key>
+            <PropertyRef Name="DTId" />
+          </Key>
+          <Property Name="DTId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DTAck" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="DId" />
+          </Key>
+          <Property Name="DId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DTId" Type="int" />
+          <Property Name="DDesc" Type="nvarchar" MaxLength="500" />
+          <Property Name="DName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DURL" Type="nvarchar" MaxLength="50" />
+          <Property Name="TId" Type="int" />
+          <Property Name="SId" Type="int" />
+          <Property Name="DSId" Type="int" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="SId" />
+          </Key>
+          <Property Name="SId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="STc" Type="nvarchar" MaxLength="11" />
+          <Property Name="SAdSoyad" Type="nvarchar" MaxLength="300" />
+          <Property Name="SPass" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TId" />
+          </Key>
+          <Property Name="TId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TTc" Type="nvarchar" MaxLength="11" />
+          <Property Name="TAdSoyad" Type="nvarchar" MaxLength="300" />
+          <Property Name="TPass" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK__Documents__SId__15502E78">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="SId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="SId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documents__TId__145C0A3F">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="TId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentInternModelStoreContainer">
+          <EntitySet Name="DocStates" EntityType="Self.DocStates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocTitle" EntityType="Self.DocTitle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Documents__SId__15502E78" Association="Self.FK__Documents__SId__15502E78">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documents__TId__145C0A3F" Association="Self.FK__Documents__TId__145C0A3F">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StudentInternModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="DId" />
+          </Key>
+          <Property Name="DId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DURL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TId" Type="Int32" />
+          <Property Name="SId" Type="Int32" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__Documents__SId__15502E78" FromRole="Documents" ToRole="Student" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK__Documents__TId__145C0A3F" FromRole="Documents" ToRole="Teacher" />
+          <Property Name="DTId" Type="Int32" />
+          <Property Name="DSId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="SId" />
+          </Key>
+          <Property Name="SId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="STc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="SAdSoyad" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="SPass" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Documents" Relationship="Self.FK__Documents__SId__15502E78" FromRole="Student" ToRole="Documents" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TId" />
+          </Key>
+          <Property Name="TId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TTc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="TAdSoyad" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="TPass" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Documents" Relationship="Self.FK__Documents__TId__145C0A3F" FromRole="Teacher" ToRole="Documents" />
+        </EntityType>
+        <Association Name="FK__Documents__SId__15502E78">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="SId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="SId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documents__TId__145C0A3F">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="TId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentInternEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Documents" EntityType="Self.Documents" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <AssociationSet Name="FK__Documents__SId__15502E78" Association="Self.FK__Documents__SId__15502E78">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documents__TId__145C0A3F" Association="Self.FK__Documents__TId__145C0A3F">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <EntitySet Name="DocStates" EntityType="StudentInternModel.DocStates" />
+          <EntitySet Name="DocTitle" EntityType="StudentInternModel.DocTitle" />
+        </EntityContainer>
+        <EntityType Name="DocStates">
+          <Key>
+            <PropertyRef Name="DSId" />
+          </Key>
+          <Property Name="DSId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DSAck" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DocTitle">
+          <Key>
+            <PropertyRef Name="DTId" />
+          </Key>
+          <Property Name="DTId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DTAck" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StudentInternModelStoreContainer" CdmEntityContainer="StudentInternEntities">
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="StudentInternModel.Documents">
+              <MappingFragment StoreEntitySet="Documents">
+                <ScalarProperty Name="DSId" ColumnName="DSId" />
+                <ScalarProperty Name="DTId" ColumnName="DTId" />
+                <ScalarProperty Name="DId" ColumnName="DId" />
+                <ScalarProperty Name="DDesc" ColumnName="DDesc" />
+                <ScalarProperty Name="DName" ColumnName="DName" />
+                <ScalarProperty Name="DURL" ColumnName="DURL" />
+                <ScalarProperty Name="TId" ColumnName="TId" />
+                <ScalarProperty Name="SId" ColumnName="SId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="StudentInternModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="SId" ColumnName="SId" />
+                <ScalarProperty Name="STc" ColumnName="STc" />
+                <ScalarProperty Name="SAdSoyad" ColumnName="SAdSoyad" />
+                <ScalarProperty Name="SPass" ColumnName="SPass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="StudentInternModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="TId" ColumnName="TId" />
+                <ScalarProperty Name="TTc" ColumnName="TTc" />
+                <ScalarProperty Name="TAdSoyad" ColumnName="TAdSoyad" />
+                <ScalarProperty Name="TPass" ColumnName="TPass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocStates">
+            <EntityTypeMapping TypeName="StudentInternModel.DocStates">
+              <MappingFragment StoreEntitySet="DocStates">
+                <ScalarProperty Name="DSAck" ColumnName="DSAck" />
+                <ScalarProperty Name="DSId" ColumnName="DSId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocTitle">
+            <EntityTypeMapping TypeName="StudentInternModel.DocTitle">
+              <MappingFragment StoreEntitySet="DocTitle">
+                <ScalarProperty Name="DTAck" ColumnName="DTAck" />
+                <ScalarProperty Name="DTId" ColumnName="DTId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
